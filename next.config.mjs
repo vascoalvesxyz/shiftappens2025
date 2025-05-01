@@ -5,6 +5,7 @@ import createMDX from '@next/mdx'
 const nextConfig = {
   // Allow .mdx extensions for files
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  transpilePackages: ['react-draggable'],
   // Optionally, add any other Next.js config below
 }
  
@@ -15,6 +16,8 @@ const withMDX = createMDX({
     rehypePlugins: [],
   },
 })
+
+
  
 // Combine MDX and Next.js config
 export default withMDX(nextConfig)
