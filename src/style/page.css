@@ -1,4 +1,127 @@
-.page {
-    background: #888;
-    color: green;
+:root {
+  /* Main colors - elegant black & white */
+  --window-bg: rgba(30, 30, 30, 0.9);
+  --window-border: rgba(255, 255, 255, 0.1);
+  --window-shadow: rgba(0, 0, 0, 0.2);
+  --header-bg: rgba(20, 20, 20, 0.9);
+  --header-text: #ffffff;
+  --content-text: #e0e0e0;
+  
+  /* Accent colors */
+  --accent-color: #ffffff;
+  --accent-hover: #f0f0f0;
+  
+  /* Dimensions */
+  --header-height: 40px;
+  --border-radius: 8px; /* Rounded corners */
+  --transition-duration: 0.3s;
 }
+
+/* Base floating window container */
+/* For windows that are being dragged */
+.floating-window.dragging {
+  opacity: 0.8;
+  transition: none; /* Disable transition while dragging */
+  transform: none; /* Ensure no transformation is applied during dragging */
+  top: auto; /* Prevent the top property from changing unexpectedly */
+  left: auto; /* Same for left */
+}
+
+/* Adjusting for the transform during the drag */
+.floating-window {
+    font-family: 'Raleway', serif;
+  position: absolute;
+  min-width: 250px;
+  min-height: 150px;
+  background-color: var(--window-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 20px var(--window-shadow);
+  border: 1px solid var(--window-border);
+  overflow: hidden;
+  resize: both;
+  z-index: 10;
+  /* Avoiding any transformations here */
+  will-change: transform; /* Optimizing the element for transformations */
+  transition: box-shadow var(--transition-duration) ease, transform var(--transition-duration) ease, opacity var(--transition-duration) ease;
+}
+
+.floating-window:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Slightly deeper shadow on hover */
+}
+
+/* Window that's currently active/focused */
+.floating-window.active {
+  z-index: 100;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-color);
+}
+
+/* Window header/title bar */
+.window-header {
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--window-border);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  cursor: move;
+  user-select: none;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.window-title {
+  flex-grow: 1;
+  font-size: 16px;
+  font-weight: 500; /* Slightly bolder title */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--header-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Window controls (buttons) - modern minimal style */
+.window-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.window-control {
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%; /* Circular buttons */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.window-control:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.1); /* Subtle scaling effect on hover */
+}
+
+.control-close {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Window content area */
+.window-content {
+  padding: 20px;
+  height: calc(100% - var(--header-height));
+  overflow: auto;
+  color: var(--content-text);
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 300;
+  background-color: rgba(20, 20, 20, 0.8); /* Slightly darker content area */
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius:

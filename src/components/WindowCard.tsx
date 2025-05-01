@@ -27,11 +27,19 @@ export default function WindowCard({ title, children }: WindowCardProps) {
         zIndex: 10,
         cursor: 'grab',
       }}
+        className="floating-window"
     >
-      <div className="page">
-        {title}
+      <div className="window-header">
+                <div className="window-title">
+                    {title}
+                </div>
+                <div className="window-controls">
+                    <button className="window-control control-minimize" title="Minimize">−</button>
+                    <button className="window-control control-maximize" title="Maximize">+</button>
+                    <button className="window-control control-close" title="Close">×</button>
+                </div>
       </div>
-      <div style={{ padding: '1rem' }}>{children}</div>
+      <div className="window-content">{children}</div>
     </motion.div>
   )
 }
