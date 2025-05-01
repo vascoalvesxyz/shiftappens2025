@@ -124,4 +124,5 @@
   font-weight: 300;
   background-color: rgba(20, 20, 20, 0.8); /* Slightly darker content area */
   border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius:
+  border-bottom-right-radius: var(--border-radius);
+}
