@@ -8,15 +8,10 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import remarkSmartypants from 'remark-smartypants';
 
-type Props = {
-  localStorageKey: string;
-};
-
-export default function NoteMDXFromLS({ localStorageKey }: Props) {
+export default function MDXRender({ mdxString }: { mdxString: string}) {
   const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(null);
 
   useEffect(() => {
-    const mdxString = localStorage.getItem(localStorageKey);
     if (mdxString) {
       serialize(mdxString, {
         mdxOptions: {
@@ -27,13 +22,13 @@ export default function NoteMDXFromLS({ localStorageKey }: Props) {
         .then(serialized => setMdxSource(serialized))
         .catch(err => console.error('MDX Serialization Error:', err));
     }
-  }, [localStorageKey]);
+  }, [mdxString]);
 
-  if (!mdxSource) return <p>Loading MDX content...</p>;
+  if (!mdxSource) return <p></p>;
 
   return(
     <div className="prose prose-lg max-w-none">
-    <MDXRemote {...mdxSource} />
+      <MDXRemote {...mdxSource} />
     </div>
   );
 }

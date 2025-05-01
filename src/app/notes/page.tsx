@@ -1,12 +1,21 @@
 'use client';
 
-import NoteMDXFromLS from '@/components/NoteMDXFromLS';
+import "@/style/globals.css"
+import MDXRender from '@/components/MDXRender';
 
 export default function Page() {
   return (
-    <div className="p-4">
-      <h1 className="text-xl mb-4">MDX from localStorage</h1>
-      <NoteMDXFromLS localStorageKey="my-mdx-content" />
+
+    <div className="prose prose-lg max-w-none p-6">
+      <h1>Hello</h1>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </ul>
+      <blockquote>
+        <p>This is a blockquote</p>
+      </blockquote>
+      <p>This is a paragraph</p>
     </div>
   );
 }
