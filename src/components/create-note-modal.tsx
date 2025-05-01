@@ -91,7 +91,7 @@ export function CreateNoteModal() {
                       <FormControl>
                         <Textarea
                           placeholder="Write your note content..."
-                          className="min-h-[350px] resize-none font-mono"
+                          className="min-h-[350px] max-h-[500px] resize-none font-mono"
                           {...field}
                         />
                       </FormControl>
@@ -104,7 +104,7 @@ export function CreateNoteModal() {
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Preview</span>
                 </div>
-                <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto">
+                <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
                   {form.watch("content").trim() ? (
                     <MDXRender mdxString={form.watch("content")} />
                   ) : (

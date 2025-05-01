@@ -125,18 +125,18 @@
 
   /* Override specific MDX content styles if necessary */
   .prose h1 {
-    @apply text-3xl font-bold my-6;
+    @apply text-3xl font-bold my-1;
   }
   .prose h2 {
-    @apply text-2xl font-bold my-5;
+    @apply text-2xl font-bold my-1;
   }
   .prose h3 {
-    @apply text-xl font-bold my-4;
+    @apply text-xl font-bold my-1;
   }
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply text-primary font-semibold my-4;
+    @apply text-primary font-semibold my-1;
   }
 
   .prose p {
@@ -144,12 +144,12 @@
   }
 
   .prose blockquote {
-    @apply border-l-4 border-primary pl-4 italic text-muted;
+    @apply border-l-4 border-primary pl-1 italic text-muted;
   }
 
   .prose ul,
   .prose ol {
-    @apply list-inside list-disc my-4;
+    @apply list-inside list-disc my-1;
   }
 
   .prose li {
