@@ -5,7 +5,7 @@ import ThreeTest from '@/components/ThreeTest';
 export default function Home(): JSX.Element {
   return (
     <main style={{ height: '100vh', width: '100vw' }}>
-      <ThreeTest />
+      <ThreeTest/>
     </main>
   );
 }
