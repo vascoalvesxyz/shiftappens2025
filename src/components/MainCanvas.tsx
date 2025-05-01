@@ -5,9 +5,6 @@ import { useState } from "react";
 import OfficeDrawer from "./three/OfficeDrawer";
 
 export default function ThreeScene(): JSX.Element {
-  const test = () => {
-    console.log("Red cube clicked");
-  };
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
 

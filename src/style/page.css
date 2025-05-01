@@ -37,7 +37,7 @@
   border-radius: var(--border-radius);
   box-shadow: 0 5px 20px var(--window-shadow);
   border: 1px solid var(--window-border);
-  overflow: hidden;
+  overflow: auto;
   resize: both;
   z-index: 10;
   /* Avoiding any transformations here */
@@ -124,4 +124,4 @@
   font-weight: 300;
   background-color: rgba(20, 20, 20, 0.8); /* Slightly darker content area */
   border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius:
+  }
