@@ -1,8 +1,8 @@
 'use client'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, GridHelper } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 
-export default function ThreeScene() {
+export default function ThreeScene(): JSX.Element {
   return (
     <Canvas camera={{ position: [10, 10, 10], fov: 60 }}>
       <ambientLight intensity={0.5} />
@@ -24,7 +24,6 @@ export default function ThreeScene() {
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="black" />
       </mesh>
-
     </Canvas>
   )
 }
