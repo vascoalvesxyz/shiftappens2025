@@ -16,61 +16,61 @@ export default function ThreeScene(): JSX.Element {
   };
 
   const positions = [
-    //[-1.0, -1, -1.5],
-    [-1.0, -0.6, -1.5],
+    [-0.9, -0.6, -1.5],
+    [-0.3, -0.6, -1.5],
+    [0.3, -0.6, -1.5],
+    [0.9, -0.6, -1.5],
 
-    //  [-0.5, -0.5, -1.5],
-    // [0.0, -0.5, -1.5],
-    // [0.5, -0.5, -1.5],
-    // [1.0, -0.5, -1.5],
-    // [1.5, -0.5, -1.5],
-    // [1.5, -0.5, -1.5],
-    // [1.5, -0.5, -1.5],
+    [-1.5, -0.6, -0.9],
+    [-1.5, -0.6, -0.3],
+    [-1.5, -0.6, 0.3],
+    [-1.5, -0.6, 0.9],
   ];
 
   return (
-
-   <div className="relative w-full h-full">
-    <Canvas
-      camera={{ position: [-5, 1, -5], fov: 30 }}
-      gl={{
-        toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 2.5,
-      }}
-    >
-      <ambientLight intensity={1} color={0xffffff} />
-      <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={1} />
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        maxAzimuthAngle={Math.PI / 2}
-        minAzimuthAngle={0}
-        minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
-        maxPolarAngle={Math.PI / 2} // straight ahead
-      />
-      <SimpleRoom />
-      {positions.map((position, index) => (
-        <OfficeDrawer
-          key={index}
-          position={position as [number, number, number]}
-          rotation-y={
-            position[0] <= -3.5
-              ? Math.PI / 2
-              : position[0] >= 4.5
-                ? -Math.PI / 2
-                : 0
-          }
-          drawerIndex={index}
-          onDrawerClick={handleDrawerClick}
+    <div className="relative w-full h-full">
+      <Canvas
+        camera={{ position: [-5, 1, -5], fov: 30 }}
+        gl={{
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 2.5,
+        }}
+      >
+        <ambientLight intensity={1} color={0xffffff} />
+        <hemisphereLight
+          color={0xffffff}
+          groundColor={0xffffff}
+          intensity={1}
         />
-      ))}
-    </Canvas>
 
-       {selectedDrawerId !== null && (
-         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[400px]">
-           <FileSelector drawer={selectedDrawerId} onClose={()=>setSelectedDrawerId(null)} />
-         </div>
-       )}
-     </div>
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          maxAzimuthAngle={Math.PI / 2}
+          minAzimuthAngle={0}
+          minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
+          maxPolarAngle={Math.PI / 2} // straight ahead
+        />
+        <SimpleRoom />
+        {positions.map((position, index) => (
+          <OfficeDrawer
+            key={index}
+            position={position as [number, number, number]}
+            rotation-y={position[0] <= -1.5 ? Math.PI / 2 : 0}
+            drawerIndex={index}
+            onDrawerClick={handleDrawerClick}
+          />
+        ))}
+      </Canvas>
+
+      {selectedDrawerId !== null && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[400px]">
+          <FileSelector
+            drawer={selectedDrawerId}
+            onClose={() => setSelectedDrawerId(null)}
+          />
+        </div>
+      )}
+    </div>
   );
 }
