@@ -4,8 +4,6 @@
     top: 0;
     left: 0;
     position: fixed;
-    background: rgba(20, 20, 20, 0.6);
-    z-index: 1;
     pointer-events: none;
 }
 
@@ -16,17 +14,14 @@
     left: 0;
     position: fixed;
     pointer-events: auto;
-    z-index: 1;
 }
 
 .react-draggable {
-    color: red;
-    z-index: 2;
+    z-index: 1;
     pointer-events: auto;
 }
 
 .desktop-window {
-    z-index: 1;
     pointer-events: auto;
 }
 

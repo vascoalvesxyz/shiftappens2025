@@ -12,15 +12,9 @@ export default function Window({ data }: { data: WindowData }) {
 
     return (
         <Rnd
+            className="bg-card text-card-foreground border border-border rounded-md shadow-md w-[400px]"
             size={{ width, height }}
             position={{ x, y }}
-            style={{
-                zIndex,
-                position: 'absolute',
-                background: '#fff',
-                border: '1px solid #ccc',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-            }}
             onDragStart={() => bringToFront(id)}
             onDragStop={(e, d) => updateWindow(id, { x: d.x, y: d.y })}
             onResizeStop={(e, dir, ref, delta, pos) => {
@@ -32,19 +26,13 @@ export default function Window({ data }: { data: WindowData }) {
                 });
             }}
         >
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    background: '#f0f0f0',
-                    padding: '4px',
-                    cursor: 'move',
-                }}
+            <div 
+                className="flex items-center justify-between p-2 bg-muted text-muted-foreground border-b border-border rounded-t-md"
+                style={{ cursor: 'move', }}
                 onMouseDown={() => bringToFront(id)}
             >
-                <span>{title}</span>
-                <button onClick={() => closeWindow(id)}>✕</button>
+                <span className="font-semibold">{title}</span>
+                <button className="hover:text-destructive" onClick={() => closeWindow(id)}>✕</button>
             </div>
             <div style={{ padding: '8px', height: 'calc(100% - 32px)', overflow: 'auto' }}>
                 <Component {...props} />
