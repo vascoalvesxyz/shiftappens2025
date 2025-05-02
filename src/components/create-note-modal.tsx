@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -24,27 +24,53 @@ import MDXRender from "@/components/MDXRender"
 // Define the form schema
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  type: z.enum(["document", "image", "code", "spreadsheet", "chart", "audio", "video"], {
+    errorMap: () => ({ message: "Type is required" }),
+  }),
   content: z.string().min(1, "Content is required"),
 })
 
 type NoteFormValues = z.infer<typeof formSchema>
 
-export function CreateNoteModal() {
+export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onNoteCreated?: (note: Note) => void }) {
   const [open, setOpen] = useState(false)
+  const [noteId, setNoteId] = useState<number>(1)
+
 
   // Initialize form with react-hook-form
   const form = useForm<NoteFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      type: "document",
       content: "",
     },
   })
 
+  useEffect(() => {
+    for (let i = 1; i <= localStorage.length*2; i++) {
+      if (!localStorage.getItem(`${drawer} ${i}`)) {
+        setNoteId(i)
+        break
+      }
+    }
+  }, [])
+
   // Handle form submission
   function onSubmit(values: NoteFormValues) {
+    if (localStorage.getItem(`${drawer} ${noteId}`)) {
+      return
+    }
+    const note: Note = {
+      drawer,
+      id: noteId,
+      type: values.type,
+      title: values.title,
+      content: values.content,
+    }
     // Save to localStorage with a unique key
-    localStorage.setItem(`1 ${values.title}`, values.content)
+    localStorage.setItem(`${note.drawer} ${note.id}`, `${note.type}|${note.title}|${note.content}`)
+    onNoteCreated?.(note)
 
     // Reset form and close modal
     form.reset()
