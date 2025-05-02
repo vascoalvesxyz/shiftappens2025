@@ -1,0 +1,38 @@
+.desktop {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(20, 20, 20, 0.6);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.desktop-nav {
+    height: 10%;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.react-draggable {
+    color: red;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.desktop-window {
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.canvas * {
+    top: 0;
+    left: 0;
+    z-index: -1;
+    position: fixed;
+}

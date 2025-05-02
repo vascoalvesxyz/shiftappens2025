@@ -2,19 +2,19 @@ import Image from "next/image";
 import MainCanvas from '@/components/MainCanvas';
 
 import MDXRender from '@/components/MDXRender'
-import WindowCard from '@/components/WindowCard'
+
+import { WindowManagerProvider } from '@/context/WindowManagerContext';
+import Desktop from '@/components/Desktop';
 
 export default function Home(): JSX.Element {
 
   return (
     <main style={{ height: '100vh', width: '100vw' }}>
-      <MainCanvas/>
+            <MainCanvas/>
 
-            <WindowCard title="My App Window">
-                <p>This is a draggable window.</p>
-            </WindowCard>
-
-
+            <WindowManagerProvider>
+                <Desktop />
+            </WindowManagerProvider>
         </main>
     );
 }

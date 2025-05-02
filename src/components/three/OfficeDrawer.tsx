@@ -13,7 +13,7 @@ import {
 import { clone } from "three/examples/jsm/utils/SkeletonUtils";
 import gsap from "gsap";
 
-export default function MyModel(props: JSX.IntrinsicElements["group"]) {
+export default function MyModel(props: JSX.IntrinsicElements["group"],  ) {
   const group = useRef<Group>(null);
   const { camera, gl } = useThree();
   const { scene: originalScene } = useGLTF("/models/office_file_cabinet.glb");
