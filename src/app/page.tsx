@@ -15,6 +15,7 @@ export default function Home(): JSX.Element {
 
   return (
     <main style={{ height: '100vh', width: '100vw' }}>
+
             <MainCanvas/>
 
             <WindowManagerProvider>

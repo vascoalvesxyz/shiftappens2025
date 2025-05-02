@@ -1,8 +1,9 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Edges } from "@react-three/drei";
+import { OrbitControls, Edges, Environment } from "@react-three/drei";
 import { useState } from "react";
 import OfficeDrawer from "./three/OfficeDrawer";
+import SimpleRoom from "./three/SimpleRoom";
 import * as THREE from "three";
 
 export default function ThreeScene(): JSX.Element {
@@ -29,7 +30,7 @@ export default function ThreeScene(): JSX.Element {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 7], fov: 22 }}
+      camera={{ position: [0, 0, 4], fov: 22 }}
       gl={{
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 2.5,
@@ -38,7 +39,8 @@ export default function ThreeScene(): JSX.Element {
       <ambientLight intensity={1} color={0xffffff} />
       <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={1} />
       <OrbitControls />
-
+      <Environment preset="city" />
+      <SimpleRoom />
       {positions.map((position, index) => (
         <OfficeDrawer
           key={index}

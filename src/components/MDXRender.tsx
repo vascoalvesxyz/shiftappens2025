@@ -24,10 +24,10 @@ export default function MDXRender({ mdxString }: { mdxString: string}) {
     }
   }, [mdxString]);
 
-  if (!mdxSource) return <p></p>;
+  if (!mdxSource) return <></>;
 
   return(
-    <div className="prose prose-lg max-w-none">
+    <div className="prose prose-lg">
       <MDXRemote {...mdxSource} />
     </div>
   );
