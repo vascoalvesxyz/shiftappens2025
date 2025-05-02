@@ -39,7 +39,6 @@ export default function ThreeScene(): JSX.Element {
       <ambientLight intensity={1} color={0xffffff} />
       <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={1} />
       <OrbitControls />
-      <Environment preset="city" />
       <SimpleRoom />
       {positions.map((position, index) => (
         <OfficeDrawer

@@ -8,13 +8,13 @@ export default function MyModel(
     onDrawerClick?: (id: string) => void;
   },
 ) {
-  const { scene } = useGLTF("/models/simple_room.glb");
+  const { scene } = useGLTF("/models/isometric_bricks.glb");
 
   return (
     <primitive
       object={scene}
       position={[0, -0.6, 0]}
-      scale={[0.25, 0.25, 0.25]}
+      scale={[0.15, 0.15, 0.15]}
     />
   );
 }
