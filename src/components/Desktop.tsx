@@ -13,7 +13,38 @@ export default function Desktop() {
                 <Window className="desktop-window" key={w.id} data={w} />
             ))}
             <div className='desktop-nav'>
-                <button onClick={() => openWindow('Notes', 'Notes')}>Open Notes</button>
+            <nav className="border-b border-border bg-background text-foreground shadow-sm px-4 py-2 flex items-center justify-between">
+                <div className="text-lg font-semibold">Balmr</div>
+                <details className="relative sm:hidden">
+                    <summary className="cursor-pointer list-none">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" stroke-linejoin="round"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </summary>
+                    <div
+                        className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-popover shadow-md flex flex-col z-50">
+                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Home</a>
+                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Features</a>
+                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Contact</a>
+                    </div>
+                </details>
+
+                    <div className="hidden sm:flex gap-6 text-sm">
+                        <button 
+                            className="hover:text-primary transition-colors"
+                            onClick={() => openWindow('Settings', 'Settings')}
+                            >Settings
+                        </button>
+                        <button 
+                            className="hover:text-primary transition-colors"
+                            onClick={() => openWindow('About', 'About')}
+                            >About
+                        </button>
+                    </div>
+            </nav>
+
             </div>
         </div>
     );

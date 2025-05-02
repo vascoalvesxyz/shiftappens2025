@@ -6,6 +6,7 @@ import registry from '../registry';
 import { WindowData } from '../context/WindowManagerContext';
 
 import '../style/note.css'
+import '../style/desktop.css'
 
 export default function Window({ data }: { data: WindowData }) {
     const { id, x, y, width, height, zIndex, key, title, props } = data;
@@ -14,7 +15,7 @@ export default function Window({ data }: { data: WindowData }) {
 
     return (
         <Rnd
-            className="bg-card text-card-foreground border border-border rounded-md shadow-md w-[400px]"
+            className="card text-card-foreground border rounded-md shadow-md w-[400px]"
             size={{ width, height }}
             position={{ x, y }}
             onDragStart={() => bringToFront(id)}
@@ -29,14 +30,14 @@ export default function Window({ data }: { data: WindowData }) {
             }}
         >
             <div 
-                className="card flex items-center justify-between p-2 bg-muted text-muted-foreground border-b border-border rounded-t-md"
+                className="card-header flex items-center justify-between p-2 bg-muted text-muted-foreground border-b border-border rounded-t-md"
                 style={{ cursor: 'move', }}
                 onMouseDown={() => bringToFront(id)}
             >
                 <span className="font-semibold">{title}</span>
                 <button className="hover:text-destructive" onClick={() => closeWindow(id)}>✕</button>
             </div>
-            <div style={{ padding: '8px', height: 'calc(100% - 32px)', overflow: 'auto' }}>
+            <div className="card-content">
                 <Component {...props} />
             </div>
         </Rnd>
