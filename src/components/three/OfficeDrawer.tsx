@@ -19,7 +19,7 @@ export default function MyModel(
 ) {
   const group = useRef<Group>(null);
   const { camera, gl } = useThree();
-  const { scene: originalScene } = useGLTF("/models/office_file_cabinet.glb");
+  const { scene: originalScene } = useGLTF("/models/model/newcab.glb");
   const [localScene] = useState(() => clone(originalScene));
   const drawersRef = useRef<{ object: Object3D; id: number }[]>([]);
 
@@ -83,7 +83,11 @@ export default function MyModel(
   return (
     <>
       <ambientLight intensity={1} />
-      <directionalLight intensity={1} position={[2, 3, 2]} />
+      <directionalLight
+        intensity={1}
+        position={[2, 3, 2]}
+        scale={[1.5, 1.5, 1.5]}
+      />
       <primitive ref={group} object={localScene} {...props} />
     </>
   );

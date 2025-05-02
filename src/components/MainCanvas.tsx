@@ -46,7 +46,6 @@ export default function ThreeScene(): JSX.Element {
                 minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
                 maxPolarAngle={Math.PI / 2}               // straight ahead
             />
-      <Environment preset="city" />
       <SimpleRoom />
       {positions.map((position, index) => (
         <OfficeDrawer
