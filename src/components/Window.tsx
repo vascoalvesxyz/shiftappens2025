@@ -5,6 +5,8 @@ import { useWindowManager } from '../context/WindowManagerContext';
 import registry from '../registry';
 import { WindowData } from '../context/WindowManagerContext';
 
+import '../style/note.css'
+
 export default function Window({ data }: { data: WindowData }) {
     const { id, x, y, width, height, zIndex, key, title, props } = data;
     const { closeWindow, bringToFront, updateWindow } = useWindowManager();
@@ -27,7 +29,7 @@ export default function Window({ data }: { data: WindowData }) {
             }}
         >
             <div 
-                className="flex items-center justify-between p-2 bg-muted text-muted-foreground border-b border-border rounded-t-md"
+                className="card flex items-center justify-between p-2 bg-muted text-muted-foreground border-b border-border rounded-t-md"
                 style={{ cursor: 'move', }}
                 onMouseDown={() => bringToFront(id)}
             >

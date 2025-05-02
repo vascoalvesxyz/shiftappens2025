@@ -4,15 +4,19 @@ import { OrbitControls, Edges } from "@react-three/drei";
 import { useState } from "react";
 import OfficeDrawer from "./three/OfficeDrawer";
 
+import * as THREE from 'three'
+
 import PI from "Math"
 
 export default function ThreeScene(): JSX.Element {
 
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-
   return (
     <>
-        <Canvas className="canvas" camera={{ position: [0, 0, 7], fov: 22 }}>
+            <Canvas
+                className="canvas"
+                camera={{ position: [0, 0, 7], fov: 22 }}
+                gl={{ antialias: true }}
+            >
           <ambientLight intensity={2} />
           <OrbitControls />
                 <OfficeDrawer position={[-1.5, -0.5, -0]} rotation-y={Math.PI/2} />
@@ -27,7 +31,6 @@ export default function ThreeScene(): JSX.Element {
                 <OfficeDrawer position={[ 1.5, -0.5, -0.5]} rotation-y={-Math.PI/2} />
                 <OfficeDrawer position={[ 1.5, -0.5, -0]} rotation-y={-Math.PI/2} />
         </Canvas>
-    <div> <p>Click a drawer</p> </div>
     </>
   );
 }

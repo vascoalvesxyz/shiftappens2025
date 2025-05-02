@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+import { useWindowManager } from '@/context/WindowManagerContext'
 
 import { useRef, useEffect, useState } from "react";
 import {
@@ -53,6 +54,8 @@ export default function MyModel(props: JSX.IntrinsicElements["group"],  ) {
           intersects[0].object.name.includes(d.name),
         );
         if (target) {
+          const { openWindow } = useWindowManager()
+          openWindow( 'NoteViewer', `Note #1`, { drawer: 1, noteId: 1 })
           const isOpen = target.position.y < -0.1;
           gsap.to(target.position, {
             y: isOpen ? 0 : -0.2,
