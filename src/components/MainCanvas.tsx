@@ -5,13 +5,14 @@ import { useState } from "react";
 import OfficeDrawer from "./three/OfficeDrawer";
 import SimpleRoom from "./three/SimpleRoom";
 import * as THREE from "three";
+import { FileSelector } from "./file-selector";
 
 export default function ThreeScene(): JSX.Element {
-  const [selectedDrawerId, setSelectedDrawerId] = useState<string | null>(null);
+  const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
 
   const handleDrawerClick = (drawerId: string) => {
     console.log("Clicked on drawer:", drawerId);
-    setSelectedDrawerId(drawerId);
+    setSelectedDrawerId(parseInt(drawerId));
   };
 
   const positions = [
@@ -28,6 +29,8 @@ export default function ThreeScene(): JSX.Element {
   ];
 
   return (
+
+   <div className="relative w-full h-full">
     <Canvas
       camera={{ position: [4.5, 1, 4], fov: 30 }}
       gl={{
@@ -62,5 +65,12 @@ export default function ThreeScene(): JSX.Element {
         />
       ))}
     </Canvas>
+
+       {selectedDrawerId !== null && (
+         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[400px]">
+           <FileSelector drawer={selectedDrawerId} onClose={()=>setSelectedDrawerId(null)} />
+         </div>
+       )}
+     </div>
   );
 }
