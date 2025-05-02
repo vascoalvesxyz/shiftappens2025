@@ -1,6 +1,6 @@
 :root {
   /* Main colors - elegant black & white */
-  --window-bg: rgba(30, 30, 30, 0.9);
+  --window-bg: rgba(30, 30, 30, 0.1);
   --window-border: rgba(255, 255, 255, 0.1);
   --window-shadow: rgba(0, 0, 0, 0.2);
   --header-bg: rgba(20, 20, 20, 0.9);
@@ -17,32 +17,22 @@
   --transition-duration: 0.3s;
 }
 
-/* Base floating window container */
-/* For windows that are being dragged */
-.floating-window.dragging {
-  opacity: 0.8;
-  transition: none; /* Disable transition while dragging */
-  transform: none; /* Ensure no transformation is applied during dragging */
-  top: auto; /* Prevent the top property from changing unexpectedly */
-  left: auto; /* Same for left */
-}
-
 /* Adjusting for the transform during the drag */
 .floating-window {
-    font-family: 'Raleway', serif;
-  position: absolute;
-  min-width: 250px;
-  min-height: 150px;
-  background-color: var(--window-bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 5px 20px var(--window-shadow);
-  border: 1px solid var(--window-border);
-  overflow: auto;
-  resize: both;
-  z-index: 10;
-  /* Avoiding any transformations here */
-  will-change: transform; /* Optimizing the element for transformations */
-  transition: box-shadow var(--transition-duration) ease, transform var(--transition-duration) ease, opacity var(--transition-duration) ease;
+    font-family: 'Raleway', sans-serif;
+    position: absolute;
+    min-width: 250px;
+    min-height: 150px;
+    border-radius: var(--border-radius);
+  background-color: rgba(20, 20, 20, 0.6); /* Slightly darker content area */
+    box-shadow: 1 5px 20px var(--window-shadow);
+    border: 1px solid var(--window-border);
+    overflow: auto;
+    resize: both;
+    z-index: 10;
+    /* Avoiding any transformations here */
+    will-change: transform; /* Optimizing the element for transformations */
+    transition: box-shadow var(--transition-duration) ease, transform var(--transition-duration) ease, opacity var(--transition-duration) ease;
 }
 
 .floating-window:hover {
@@ -122,6 +112,5 @@
   font-size: 14px;
   line-height: 1.6;
   font-weight: 300;
-  background-color: rgba(20, 20, 20, 0.8); /* Slightly darker content area */
   border-bottom-left-radius: var(--border-radius);
   }

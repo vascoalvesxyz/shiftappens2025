@@ -1,27 +1,29 @@
 import { useGLTF } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   Group,
   Object3D,
   MeshStandardMaterial,
   Raycaster,
   Vector2,
+  Skeleton,
 } from "three";
+import { clone } from "three/examples/jsm/utils/SkeletonUtils";
 import gsap from "gsap";
 
 export default function MyModel(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<Group>(null);
-  const { scene, camera, gl } = useThree();
-  const { scene: modelScene } = useGLTF("/models/office_file_cabinet.glb");
-
-  const drawers: Object3D[] = [];
+  const { camera, gl } = useThree();
+  const { scene: originalScene } = useGLTF("/models/office_file_cabinet.glb");
+  const [localScene] = useState(() => clone(originalScene));
+  const drawersRef = useRef<Object3D[]>([]);
 
   useEffect(() => {
-    if (!modelScene) return;
+    const drawers: Object3D[] = [];
 
-    modelScene.traverse((child) => {
+    localScene.traverse((child) => {
       if (/^\d{2}$/.test(child.name)) {
         child.position.y = 0;
         drawers.push(child);
@@ -33,6 +35,8 @@ export default function MyModel(props: JSX.IntrinsicElements["group"]) {
       }
     });
 
+    drawersRef.current = drawers;
+
     const raycaster = new Raycaster();
     const mouse = new Vector2();
 
@@ -42,10 +46,10 @@ export default function MyModel(props: JSX.IntrinsicElements["group"]) {
       mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(drawersRef.current, true);
 
-      const intersects = raycaster.intersectObjects(drawers, true);
       if (intersects.length > 0) {
-        const target = drawers.find((d) =>
+        const target = drawersRef.current.find((d) =>
           intersects[0].object.name.includes(d.name),
         );
         if (target) {
@@ -61,13 +65,13 @@ export default function MyModel(props: JSX.IntrinsicElements["group"]) {
 
     gl.domElement.addEventListener("click", handleClick);
     return () => gl.domElement.removeEventListener("click", handleClick);
-  }, [modelScene, camera, gl]);
+  }, [camera, gl, localScene]);
 
   return (
     <>
       <ambientLight intensity={0.6} />
       <directionalLight intensity={1} position={[2, 3, 2]} />
-      <primitive ref={group} object={modelScene} {...props} />
+      <primitive ref={group} object={localScene} {...props} />
     </>
   );
 }
