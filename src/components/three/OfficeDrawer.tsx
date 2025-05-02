@@ -86,7 +86,7 @@ export default function MyModel(
       <directionalLight
         intensity={1}
         position={[2, 3, 2]}
-        scale={[1.5, 1.5, 1.5]}
+        scale={[2.5, 2.5, 2.5]}
       />
       <primitive ref={group} object={localScene} {...props} />
     </>
