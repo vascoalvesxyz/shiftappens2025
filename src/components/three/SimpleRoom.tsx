@@ -15,6 +15,7 @@ export default function MyModel(
       object={scene}
       position={[0, -0.6, 0]}
       scale={[0.15, 0.15, 0.15]}
+      rotation-y={Math.PI / 2}
     />
   );
 }

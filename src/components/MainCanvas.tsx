@@ -15,17 +15,16 @@ export default function ThreeScene(): JSX.Element {
   };
 
   const positions = [
-    [-4.5, -0.5, -5],
-    [-1.5, -0.5, -5],
-    [-1.5, -0.5, -5],
-    [-1.0, -0.5, -5],
-    [-0.5, -0.5, -5],
-    [0.0, -0.5, -5],
-    [0.5, -0.5, -5],
-    [1.0, -0.5, -5],
-    [1.5, -0.5, -5],
-    [1.5, -0.5, -5],
-    [1.5, -0.5, -5],
+    //[-1.0, -1, -1.5],
+    [-1.0, -0.6, -1.5],
+
+    //  [-0.5, -0.5, -1.5],
+    // [0.0, -0.5, -1.5],
+    // [0.5, -0.5, -1.5],
+    // [1.0, -0.5, -1.5],
+    // [1.5, -0.5, -1.5],
+    // [1.5, -0.5, -1.5],
+    // [1.5, -0.5, -1.5],
   ];
 
   return (
@@ -39,13 +38,13 @@ export default function ThreeScene(): JSX.Element {
       <ambientLight intensity={1} color={0xffffff} />
       <hemisphereLight color={0xffffff} groundColor={0xffffff} intensity={1} />
       <OrbitControls
-                enablePan={false}
-                enableZoom={false}
-                maxAzimuthAngle={Math.PI / 2}
-                minAzimuthAngle={0}  
-                minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
-                maxPolarAngle={Math.PI / 2}               // straight ahead
-            />
+        enablePan={false}
+        enableZoom={false}
+        maxAzimuthAngle={Math.PI / 2}
+        minAzimuthAngle={0}
+        minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
+        maxPolarAngle={Math.PI / 2} // straight ahead
+      />
       <SimpleRoom />
       {positions.map((position, index) => (
         <OfficeDrawer
