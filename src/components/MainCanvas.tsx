@@ -30,7 +30,7 @@ export default function ThreeScene(): JSX.Element {
 
   return (
     <Canvas
-      camera={{ position: [4.5, 1, 4], fov: 30 }}
+      camera={{ position: [-5, 1, -5], fov: 30 }}
       gl={{
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 2.5,
