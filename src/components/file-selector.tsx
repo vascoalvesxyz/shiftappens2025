@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input"
 import { NoteViewer } from "./note-viewer"
 import { CreateNoteModal } from "./create-note-modal"
 
+import '../style/desktop.css'
+
 const getNoteIcon = (type: NoteType) => {
   switch (type) {
     case "document": return <FileText className="h-4 w-4 text-blue-500" />
@@ -106,7 +108,7 @@ export function FileSelector({
   }
 
   return (
-    <div className="sm:max-w-[800px] w-full p-6 border rounded-xl shadow-lg bg-background relative">
+    <div className="card">
       <button
         className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition"
         onClick={onClose}
@@ -134,11 +136,9 @@ export function FileSelector({
         />
       ) : (
         <>
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">Drawer {drawer}</h2>
-            <p className="text-sm text-muted-foreground">
-              Browse or search through your notes.
-            </p>
+          <div className="card-section-container">
+            <div className="card-header">Drawer {drawer}</div>
+            <p className="card-subtext"> Browse or search through your notes. </p>
           </div>
 
           <CreateNoteModal
@@ -148,7 +148,7 @@ export function FileSelector({
             }}
           />
 
-          <div className="mt-4 relative">
+          <div className="card-section-container">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"

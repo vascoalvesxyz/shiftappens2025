@@ -16,11 +16,19 @@ export default function Desktop() {
             <nav className="border-b border-border bg-background text-foreground shadow-sm px-4 py-2 flex items-center justify-between">
                 <div className="text-lg font-semibold">Balmr</div>
                 <details className="relative sm:hidden">
-                    <div
-                        className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-popover shadow-md flex flex-col z-50">
-                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Home</a>
-                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Features</a>
-                        <a href="#" className="px-4 py-2 hover:bg-muted transition-colors">Contact</a>
+                        <summary>
+                        </summary>
+                    <div className="absolute right-0 mt-2 w-48 rounded-md border border-border bg-popover shadow-md flex flex-col z-50">
+                            <button 
+                                className="hover:text-primary transition-colors"
+                                onClick={() => openWindow('Settings', 'Settings')}
+                            >Settings
+                            </button>
+                            <button 
+                                className="hover:text-primary transition-colors"
+                                onClick={() => openWindow('About', 'About')}
+                            >About
+                            </button>
                     </div>
                 </details>
 
