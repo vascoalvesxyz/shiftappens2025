@@ -20,8 +20,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import MDXRender from "@/components/MDXRender"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-// Define the form schema
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   type: z.enum(["document", "image", "code", "spreadsheet", "chart", "audio", "video"], {
@@ -31,13 +31,18 @@ const formSchema = z.object({
 })
 
 type NoteFormValues = z.infer<typeof formSchema>
+type Note = {
+  drawer: number
+  id: number
+  type: string
+  title: string
+  content: string
+}
 
 export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onNoteCreated?: (note: Note) => void }) {
   const [open, setOpen] = useState(false)
   const [noteId, setNoteId] = useState<number>(1)
 
-
-  // Initialize form with react-hook-form
   const form = useForm<NoteFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,20 +52,23 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
     },
   })
 
-  useEffect(() => {
-    for (let i = 1; i <= localStorage.length*2; i++) {
+  function fetchNewNoteId() {
+    for (let i = 1; i <= localStorage.length * 2; i++) {
       if (!localStorage.getItem(`${drawer} ${i}`)) {
         setNoteId(i)
         break
       }
     }
+    console.log("Note ID:", noteId)
+  }
+
+  useEffect(() => {
+    fetchNewNoteId()
   }, [])
 
-  // Handle form submission
   function onSubmit(values: NoteFormValues) {
-    if (localStorage.getItem(`${drawer} ${noteId}`)) {
-      return
-    }
+    if (localStorage.getItem(`${drawer} ${noteId}`)) return
+
     const note: Note = {
       drawer,
       id: noteId,
@@ -68,13 +76,14 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
       title: values.title,
       content: values.content,
     }
-    // Save to localStorage with a unique key
+
     localStorage.setItem(`${note.drawer} ${note.id}`, `${note.type}|${note.title}|${note.content}`)
     onNoteCreated?.(note)
 
-    // Reset form and close modal
     form.reset()
     setOpen(false)
+
+    fetchNewNoteId()
   }
 
   return (
@@ -85,66 +94,111 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
           Create Note
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px] max-h-[80vh]">
-        <DialogHeader>
-          <DialogTitle>Create New Note</DialogTitle>
-          <DialogDescription>Create a new note with MDX support. Click save when you're done.</DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Note title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <DialogContent className="w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
+        <div className="flex flex-col h-full">
+          <DialogHeader>
+            <DialogTitle>Create New Note</DialogTitle>
+            <DialogDescription>Create a new note with MDX support. Click save when you're done.</DialogDescription>
+          </DialogHeader>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+          <div className="flex-1 overflow-y-auto py-4">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 h-full flex flex-col">
                 <FormField
                   control={form.control}
-                  name="content"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Content</FormLabel>
+                      <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Write your note content..."
-                          className="min-h-[350px] max-h-[500px] resize-none font-mono"
-                          {...field}
-                        />
+                        <Input placeholder="Note title" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Preview</span>
-                </div>
-                <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
-                  {form.watch("content").trim() ? (
-                    <MDXRender mdxString={form.watch("content")} />
-                  ) : (
-                    <p className="text-muted-foreground italic">Nothing to preview…</p>
-                  )}
-                </div>
-              </div>
-            </div>
 
-            <DialogFooter>
-              <Button type="submit">Save Note</Button>
-            </DialogFooter>
-          </form>
-        </Form>
+                {/* Responsive Tabs for mobile */}
+                <div className="block sm:hidden">
+                  <Tabs defaultValue="content">
+                    <TabsList className="grid w-full grid-cols-2 mb-2">
+                      <TabsTrigger value="content">Content</TabsTrigger>
+                      <TabsTrigger value="preview">Preview</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="content">
+                      <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Content</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Write your note content..."
+                                className="h-[40vh] resize-none font-mono"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </TabsContent>
+                    <TabsContent value="preview">
+                      <FormLabel>Preview</FormLabel>
+                      <div className="rounded-md border border-input mt-2 pl-4 h-[40vh] overflow-auto max-w-full">
+                        {form.watch("content").trim() ? (
+                          <MDXRender mdxString={form.watch("content")} />
+                        ) : (
+                          <p className="text-muted-foreground italic">Nothing to preview…</p>
+                        )}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+
+                {/* Desktop side-by-side layout */}
+                <div className="hidden sm:grid sm:grid-cols-2 sm:gap-4 flex-1">
+                  <div className="space-y-2 h-full flex flex-col">
+                    <FormField
+                      control={form.control}
+                      name="content"
+                      render={({ field }) => (
+                        <FormItem className="flex-1 flex flex-col">
+                          <FormLabel>Content</FormLabel>
+                          <FormControl className="flex-1">
+                            <Textarea
+                              placeholder="Write your note content..."
+                              className="flex-1 resize-none font-mono"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="space-y-2 h-full flex flex-col">
+                    <FormLabel>Preview</FormLabel>
+                    <div className="rounded-md border border-input p-4 flex-1 overflow-auto">
+                      {form.watch("content").trim() ? (
+                        <MDXRender mdxString={form.watch("content")} />
+                      ) : (
+                        <p className="text-muted-foreground italic">Nothing to preview…</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <DialogFooter>
+                    <Button type="submit">Save Note</Button>
+                  </DialogFooter>
+                </div>
+              </form>
+            </Form>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   )
