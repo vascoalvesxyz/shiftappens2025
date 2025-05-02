@@ -30,7 +30,7 @@ export default function ThreeScene(): JSX.Element {
   return (
     <div className="relative w-full h-full">
       <Canvas
-        camera={{ position: [4.5, 1, 4], fov: 30 }}
+        camera={{ position: [-5, 1, -5], fov: 30 }}
         gl={{
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 2.5,
@@ -42,6 +42,7 @@ export default function ThreeScene(): JSX.Element {
           groundColor={0xffffff}
           intensity={1}
         />
+
         <OrbitControls
           enablePan={false}
           enableZoom={false}
