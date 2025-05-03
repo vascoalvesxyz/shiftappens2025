@@ -30,22 +30,18 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import MDXRender from "@/components/MDXRender"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { getNoteIcon, Note, NoteType, noteTypes } from "@/lib/types"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  type: z.enum(["document", "code", "temporary"], {
+    errorMap: () => ({ message: "Type is required" }),
+  }),
   content: z.string().min(1, "Content is required"),
 })
 
 type NoteFormValues = z.infer<typeof formSchema>
-type NoteType = "document" | "image" | "code" | "spreadsheet" | "chart" | "audio" | "video"
-
-interface Note {
-  drawer: number
-  id: number
-  type: NoteType
-  title: string
-  content: string
-}
 
 interface NoteViewerProps {
   drawer: number
@@ -77,6 +73,7 @@ export function NoteViewer({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      type: "document",
       content: "",
     },
   })
@@ -95,6 +92,7 @@ export function NoteViewer({
       setNote(newNote)
       form.reset({
         title,
+        type: type as NoteType,
         content: content || "",
       })
     }
@@ -103,17 +101,18 @@ export function NoteViewer({
   function onSubmit(values: NoteFormValues) {
     if (!note) return
 
+    // Update the note type, title, and content in localStorage
     const newKey = `${drawer} ${noteId}`
-    const newValue = `${note.type}|${values.title}|${values.content}`
+    const newValue = `${values.type}|${values.title}|${values.content}`
 
-    if (values.title !== note.title) {
+    if (values.title !== note.title || values.type !== note.type) {
       localStorage.removeItem(newKey)
     }
 
     localStorage.setItem(newKey, newValue)
 
     setIsEditing(false)
-    setNote({ ...note, title: values.title, content: values.content })
+    setNote({ ...note, title: values.title, type: values.type, content: values.content })
     onNoteUpdated?.()
 
     if (values.title !== note.title) {
@@ -131,12 +130,16 @@ export function NoteViewer({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[900px] max-h-[80vh]">
-          {!isEditing ? (
+        <DialogContent className="glass w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
+          {!isEditing && note ? (
             <>
+            <div className="card-container-scroll flex flex-col h-full">
               <DialogHeader>
-                <DialogTitle>{note?.title}</DialogTitle>
-                <DialogDescription className="flex gap-2 mt-2">
+                <DialogTitle className="flex items-center gap-2">
+                  {getNoteIcon(note.type)}
+                  {note?.title}
+                </DialogTitle>
+                <DialogDescription className="flex gap-2 mt-2 justify-between">
                   <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="gap-1">
                     <Edit className="h-4 w-4" />
                     Edit
@@ -152,20 +155,22 @@ export function NoteViewer({
                   </Button>
                 </DialogDescription>
               </DialogHeader>
-              <div className="overflow-auto max-h-[500px] mt-4">
+              <div className="overflow-auto max-h-[500px]">
                 {note?.content ? (
                   <MDXRender mdxString={note.content} />
                 ) : (
                   <p className="italic text-muted-foreground">No content found.</p>
                 )}
               </div>
+            </div>
             </>
           ) : (
             <>
-              <DialogHeader>
+              <div className="card-header">
                 <DialogTitle>Edit Note</DialogTitle>
                 <DialogDescription>Make changes to your note. Click save when you're done.</DialogDescription>
-              </DialogHeader>
+              </div>
+              <div className="card-container-scroll flex flex-col h-full">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
@@ -177,6 +182,34 @@ export function NoteViewer({
                         <FormControl>
                           <Input placeholder="Note title" {...field} />
                         </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Note Type</FormLabel>
+                        <Select value={field.value} onValueChange={field.onChange}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {noteTypes.map(({ value, label, icon }) => (
+                              <SelectItem key={value} value={value}>
+                                <div className="flex items-center">
+                                  {icon}
+                                  {label}
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -199,7 +232,7 @@ export function NoteViewer({
                               <FormControl>
                                 <Textarea
                                   placeholder="Write your note content..."
-                                  className="min-h-[350px] max-h-[500px] resize-none font-mono"
+                                  className="min-h-[40%] max-h-full resize-none font-mono"
                                   {...field}
                                 />
                               </FormControl>
@@ -211,7 +244,7 @@ export function NoteViewer({
                       <TabsContent value="preview">
                         <div className="space-y-2">
                           <span className="text-sm font-medium">Preview</span>
-                          <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
+                          <div className="create-note-text-preview rounded-md border border-input p-2 min-h-[350px] overflow-auto max-h-full">
                             {form.watch("content").trim() ? (
                               <MDXRender mdxString={form.watch("content")} />
                             ) : (
@@ -244,7 +277,7 @@ export function NoteViewer({
                     />
                     <div className="space-y-2">
                       <span className="text-sm font-medium">Preview</span>
-                      <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
+                      <div className="create-note-text-preview rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
                         {form.watch("content").trim() ? (
                           <MDXRender mdxString={form.watch("content")} />
                         ) : (
@@ -262,6 +295,7 @@ export function NoteViewer({
                   </DialogFooter>
                 </form>
               </Form>
+              </div>
             </>
           )}
         </DialogContent>

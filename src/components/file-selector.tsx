@@ -10,18 +10,8 @@ import { Input } from "@/components/ui/input"
 import { NoteViewer } from "./note-viewer"
 import { CreateNoteModal } from "./create-note-modal"
 
-const getNoteIcon = (type: NoteType) => {
-  switch (type) {
-    case "document": return <FileText className="h-4 w-4 text-blue-500" />
-    case "image": return <FileImage className="h-4 w-4 text-green-500" />
-    case "code": return <FileCode className="h-4 w-4 text-purple-500" />
-    case "spreadsheet": return <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
-    case "chart": return <FilePieChart className="h-4 w-4 text-orange-500" />
-    case "audio": return <FileAudio className="h-4 w-4 text-red-500" />
-    case "video": return <FileVideo className="h-4 w-4 text-pink-500" />
-    default: return <FileText className="h-4 w-4 text-gray-500" />
-  }
-}
+import '../style/desktop.css'
+import { getNoteIcon, Note, NoteType } from "@/lib/types";
 
 const NoteItem = ({ note, onSelect }: { note: Note, onSelect: (note: Note) => void }) => (
   <div
@@ -106,7 +96,7 @@ export function FileSelector({
   }
 
   return (
-    <div className="sm:max-w-[800px] w-full p-6 border rounded-xl shadow-lg bg-background relative">
+    <div className="card">
       <button
         className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition"
         onClick={onClose}
@@ -134,11 +124,9 @@ export function FileSelector({
         />
       ) : (
         <>
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">Drawer {drawer}</h2>
-            <p className="text-sm text-muted-foreground">
-              Browse or search through your notes.
-            </p>
+          <div className="card-section-container">
+            <div className="card-header">Drawer {drawer}</div>
+            <p className="card-subtext"> Browse or search through your notes. </p>
           </div>
 
           <CreateNoteModal
@@ -148,7 +136,7 @@ export function FileSelector({
             }}
           />
 
-          <div className="mt-4 relative">
+          <div className="card-section-container">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
@@ -160,21 +148,29 @@ export function FileSelector({
           </div>
 
           <div className="mt-2 max-h-[60vh] overflow-y-auto border rounded-md bg-card p-2">
-            {filteredNotes.length > 0 ? (
-              <div className="space-y-1">
+            {notes.length > 0 ? (
+              filteredNotes.length > 0 ? (
+                <div className="space-y-1">
                 {filteredNotes.map((note) => (
                   <NoteItem
-                    key={`${note.drawer}-${note.id}-${note.title}`}
-                    note={note}
-                    onSelect={handleSelectNote}
+                  key={`${note.drawer}-${note.id}-${note.title}`}
+                  note={note}
+                  onSelect={handleSelectNote}
                   />
                 ))}
-              </div>
-            ) : (
+                </div>
+              ) : (
               <div className="flex items-center justify-center h-32 text-muted-foreground">
-                No notes found matching your search.
-              </div>
-            )}
+              No notes found matching your search.
+                </div>
+              )
+            )
+              : (
+              <div className="flex items-center justify-center h-32 text-muted-foreground">
+              No notes found.
+                </div>
+              )
+            }
           </div>
         </>
       )}
