@@ -91,6 +91,7 @@
 
 .card-close {
     position: absolute;
+    margin-left: 90%;
     top: 10;
     right: 15;
     color: #666666;
