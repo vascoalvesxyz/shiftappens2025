@@ -12,7 +12,6 @@ export default function Plant(
 
   useEffect(() => {
     if (scene) {
-      // Criar uma nova instância do modelo toda vez que o componente for renderizado
       const newModel = scene.clone();
       setModel(newModel);
     }

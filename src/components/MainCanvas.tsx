@@ -11,18 +11,25 @@ import CeilingLamp from "./three/CeilingLamp";
 import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
 import { FileSelector } from "./file-selector";
-<<<<<<< HEAD
 import { useModelSelector } from "@/context/ModelSelectorContext";
 
 interface ModelSelectorProps {
   placingModel: string | null;
   setPlacingModel: (model: string | null) => void;
 }
-
 function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
+  const { toggleModelSelector } = useModelSelector();
   return (
-    <div className="absolute top-4 left-4 z-10 bg-white p-2 rounded shadow">
-      <p className="font-bold mb-2">Adicionar modelo:</p>
+    <div className="absolute top-20 left-4 z-10 bg-white p-2 rounded shadow">
+      <div className="flex justify-between items-center mb-2">
+        <p className="font-bold">Adicionar Item:</p>
+        <button
+          onClick={() => toggleModelSelector()}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          ×
+        </button>
+      </div>
       {["Plant", "Radio"].map((model) => (
         <button
           key={model}
@@ -33,7 +40,7 @@ function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
         </button>
       ))}
       {placingModel && (
-        <p className="text-sm text-green-600 mt-2">
+        <p className="text-sm text-black-600 mt-2">
           Clique no chão para colocar: <strong>{placingModel}</strong>
         </p>
       )}
@@ -41,8 +48,7 @@ function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
   );
 }
 
-export default function ThreeScene() {
-import { useLighting } from "@/context/LightningContext";
+export default function ThreeScene(): JSX.Element {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
   const [placingModel, setPlacingModel] = useState<string | null>(null);
   const { showModelSelector } = useModelSelector();
