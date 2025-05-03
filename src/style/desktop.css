@@ -64,6 +64,8 @@
 .card-header {
     color: black;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
     font-size: 1.25rem;         /* Tailwind's text-xl = 1.25rem */
     font-weight: 600;
     padding: 0rem;
@@ -92,6 +94,7 @@
 .create-note-text-preview {
     max-width: 100%;
     word-wrap: break-word;
+    overflow: hidden;
 }
 
 .card-container-scroll {
@@ -102,7 +105,10 @@
 .card-content {
     color: #444444;
     font-family: sans-serif;
-    padding: 1em;
+
     height: calc(100% - 32px);
-    overflow: auto;
+
+    max-width: 100%;
+    word-wrap: break-word !important;
+    overflow-y: auto !important;
 }

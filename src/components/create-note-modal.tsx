@@ -94,13 +94,13 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                 <Button className="gap-2">
                     <Plus className="h-4 w-4" /> Create Note </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
+            <DialogContent className="glass w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
                 <div className="card-container-scroll flex flex-col h-full">
-                    <DialogHeader>
+                    <div className="card-header">
 
-                        <DialogTitle>Create New Note</DialogTitle>
-                        <DialogDescription>Create a new note with MDX support. Click save when you're done.</DialogDescription>
-                    </DialogHeader>
+                        <DialogTitle>Create New Note.</DialogTitle>
+                        <DialogDescription>Create a new note with Markdown support. Click save when you're done.</DialogDescription>
+                    </div>
 
                     <div className="flex-1 overflow-y-auto py-4">
                         <Form {...form}>
