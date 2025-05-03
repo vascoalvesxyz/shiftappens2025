@@ -109,6 +109,10 @@
   overflow-y: auto;
 }
 
+.card-container-scroll:hover {
+    cursor: move;
+}
+
 .card-content {
     color: #444444;
     font-family: sans-serif;
