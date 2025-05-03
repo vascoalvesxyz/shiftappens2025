@@ -4,7 +4,10 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Plus } from "lucide-react"
+import {
+    FileText, FileImage, FileCode, FileSpreadsheet,
+    FilePieChart, FileAudio, FileVideo, Plus
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -19,27 +22,22 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import MDXRender from "@/components/MDXRender"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import '../style/desktop.css'
+import { Note, noteTypes } from "@/lib/types"
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    type: z.enum(["document", "image", "code", "spreadsheet", "chart", "audio", "video"], {
+    type: z.enum(["document", "code", "temporary"], {
         errorMap: () => ({ message: "Type is required" }),
     }),
     content: z.string().min(1, "Content is required"),
 })
 
 type NoteFormValues = z.infer<typeof formSchema>
-type Note = {
-    drawer: number
-    id: number
-    type: string
-    title: string
-    content: string
-}
 
 export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onNoteCreated?: (note: Note) => void }) {
     const [open, setOpen] = useState(false)
@@ -61,7 +59,6 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                 break
             }
         }
-        console.log("Note ID:", noteId)
     }
 
     useEffect(() => {
@@ -84,7 +81,6 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
 
         form.reset()
         setOpen(false)
-
         fetchNewNoteId()
     }
 
@@ -92,7 +88,8 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className="gap-2">
-                    <Plus className="h-4 w-4" /> Create Note </Button>
+                    <Plus className="h-4 w-4" /> Create Note
+                </Button>
             </DialogTrigger>
             <DialogContent className="glass w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
                 <div className="card-container-scroll flex flex-col h-full">
@@ -105,6 +102,7 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                     <div className="flex-1 overflow-y-auto py-4">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 h-full flex flex-col">
+
                                 <FormField
                                     control={form.control}
                                     name="title"
@@ -119,7 +117,35 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                                     )}
                                 />
 
-                                {/* Responsive Tabs for mobile */}
+                                <FormField
+                                    control={form.control}
+                                    name="type"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Note Type</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select type" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {noteTypes.map(({ value, label, icon }) => (
+                                                        <SelectItem key={value} value={value}>
+                                                            <div className="flex items-center">
+                                                                {icon}
+                                                                {label}
+                                                            </div>
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Mobile Tabs */}
                                 <div className="block sm:hidden">
                                     <Tabs defaultValue="content">
                                         <TabsList className="grid w-full grid-cols-2 mb-2">
@@ -151,14 +177,14 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                                                 {form.watch("content").trim() ? (
                                                     <MDXRender mdxString={form.watch("content")} />
                                                 ) : (
-                                                        <p className="text-muted-foreground italic">Nothing to preview…</p>
-                                                    )}
+                                                    <p className="text-muted-foreground italic">Nothing to preview…</p>
+                                                )}
                                             </div>
                                         </TabsContent>
                                     </Tabs>
                                 </div>
 
-                                {/* Desktop side-by-side layout */}
+                                {/* Desktop Layout */}
                                 <div className="hidden sm:grid sm:grid-cols-2 sm:gap-4 flex-1">
                                     <div className="space-y-2 h-full flex flex-col">
                                         <FormField
@@ -185,19 +211,18 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                                             {form.watch("content").trim() ? (
                                                 <MDXRender mdxString={form.watch("content")} />
                                             ) : (
-                                                    <p className="text-muted-foreground italic">Nothing to preview…</p>
-                                                )}
+                                                <p className="text-muted-foreground italic">Nothing to preview…</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
 
+                                <DialogFooter className="pt-4">
+                                    <Button type="submit">Save Note</Button>
+                                </DialogFooter>
+
                             </form>
                         </Form>
-                    </div>
-                    <div className="card-save pt-4">
-                        <DialogFooter>
-                            <Button type="submit">Save Note</Button>
-                        </DialogFooter>
                     </div>
                 </div>
             </DialogContent>
