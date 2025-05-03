@@ -2,7 +2,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Edges, Environment } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 import OfficeDrawer from "./three/OfficeDrawer";
 import Rug from "./three/Rug";
 import SimpleRoom from "./three/SimpleRoom";
@@ -11,28 +11,14 @@ import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
 import * as THREE from "three";
 import { FileSelector } from "./file-selector";
+import { LightControlsPanel } from "./LightControlsPanel";
+import { useLighting } from "@/context/LightningContext";
 
 export default function ThreeScene(): JSX.Element {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
+  const { lightColor, lightIntensity, ambientIntensity, lightPosition } = useLighting()
   const lightRef = useRef<THREE.DirectionalLight>(null);
   const lightTargetRef = useRef<THREE.Object3D>(null);
-
-  // Configurações de luz controláveis com Leva
-  const {
-    lightIntensity,
-    ambientIntensity,
-    lightColor,
-    lightPositionX,
-    lightPositionY,
-    lightPositionZ,
-  } = useControls({
-    lightColor: "#ffffff",
-    lightIntensity: { value: 2, min: 0, max: 10, step: 0.1 },
-    ambientIntensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
-    lightPositionX: { value: 2, min: -10, max: 10 },
-    lightPositionY: { value: 5, min: 0, max: 10 },
-    lightPositionZ: { value: 5, min: -10, max: 10 },
-  });
 
   const handleDrawerClick = (drawerId: string) => {
     setSelectedDrawerId(parseInt(drawerId));
@@ -58,6 +44,7 @@ export default function ThreeScene(): JSX.Element {
 
   return (
     <div className="relative w-full h-full">
+
       <Canvas
         camera={{ position: [7, 12, 7], fov: 30 }}
         gl={{
@@ -78,7 +65,7 @@ export default function ThreeScene(): JSX.Element {
           ref={lightRef}
           color={lightColor}
           intensity={lightIntensity}
-          position={[lightPositionX, lightPositionY, lightPositionZ]}
+          position={[lightPosition.x, lightPosition.y, lightPosition.z]}
           castShadow // Ativa sombras
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
