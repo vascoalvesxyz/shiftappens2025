@@ -26,7 +26,3 @@
 ## Technologies Used
 - Next.js
 - Three.js
-
-## License
-MIT License
-

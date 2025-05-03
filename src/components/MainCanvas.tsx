@@ -1,8 +1,7 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Edges, Environment } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
-import { Leva, useControls } from "leva";
 import OfficeDrawer from "./three/OfficeDrawer";
 import Rug from "./three/Rug";
 import SimpleRoom from "./three/SimpleRoom";
@@ -11,10 +10,9 @@ import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
 import * as THREE from "three";
 import { FileSelector } from "./file-selector";
-import { LightControlsPanel } from "./LightControlsPanel";
 import { useLighting } from "@/context/LightningContext";
 
-export default function ThreeScene(): JSX.Element {
+export default function ThreeScene() {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
   const { lightColor, lightIntensity, ambientIntensity, lightPosition } =
     useLighting();
