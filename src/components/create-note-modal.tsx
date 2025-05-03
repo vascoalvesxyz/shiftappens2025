@@ -31,7 +31,7 @@ import { Note, noteTypes } from "@/lib/types"
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    type: z.enum(["document", "code", "temporary"], {
+    type: z.enum(["red", "blue", "green", "yellow", "purple", "orange"], {
         errorMap: () => ({ message: "Type is required" }),
     }),
     content: z.string().min(1, "Content is required"),
@@ -47,7 +47,7 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
-            type: "document",
+            type: "red",
             content: "",
         },
     })

@@ -1,9 +1,8 @@
 import {
-  FileText, FileImage, FileCode, FileSpreadsheet,
-  FilePieChart, FileAudio, FileVideo, StickyNote
+  StickyNote
 } from "lucide-react"
 
-export type NoteType = "document" | "code" | "temporary"
+export type NoteType = "red" | "blue" | "green" | "yellow" | "purple" | "orange"
 
 export type Note = {
   drawer: number
@@ -15,15 +14,21 @@ export type Note = {
 
 export const getNoteIcon = (type: NoteType) => {
   switch (type) {
-    case "document": return <FileText className="h-4 w-4 text-blue-500" />
-    case "code": return <FileCode className="h-4 w-4 text-purple-500" />
-    case "temporary": return <StickyNote className="h-4 w-4 text-emerald-500" />
-    default: return <FileText className="h-4 w-4 text-gray-500" />
+    case "red": return <StickyNote className="h-4 w-4 text-red-500" />
+    case "blue": return <StickyNote className="h-4 w-4 text-blue-500" />
+    case "green": return <StickyNote className="h-4 w-4 text-green-500" />
+    case "yellow": return <StickyNote className="h-4 w-4 text-yellow-500" />
+    case "purple": return <StickyNote className="h-4 w-4 text-purple-500" />
+    case "orange": return <StickyNote className="h-4 w-4 text-orange-500" />
+    default: return <StickyNote className="h-4 w-4 text-gray-500" />
   }
 }
 
 export const noteTypes = [
-  { value: "document", label: "Document", icon: <FileText className="mr-2 h-4 w-4 text-blue-500" /> },
-  { value: "code", label: "Code", icon: <FileCode className="mr-2 h-4 w-4 text-purple-500" /> },
-  { value: "temporary", label: "Temporary", icon: <StickyNote className="mr-2 h-4 w-4 text-emerald-500" /> },
+  { value: "red", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-red-500" /> },
+  { value: "blue", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-blue-500" /> },
+  { value: "green", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-green-500" /> },
+  { value: "yellow", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-yellow-500" /> },
+  { value: "purple", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-purple-500" /> },
+  { value: "orange", label: "", icon: <StickyNote className="mr-2 h-4 w-4 text-orange-500" /> },
 ]

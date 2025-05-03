@@ -35,7 +35,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  type: z.enum(["document", "code", "temporary"], {
+  type: z.enum(["red", "blue", "green", "yellow", "purple", "orange"], {
     errorMap: () => ({ message: "Type is required" }),
   }),
   content: z.string().min(1, "Content is required"),
@@ -73,7 +73,7 @@ export function NoteViewer({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      type: "document",
+      type: "red",
       content: "",
     },
   })
