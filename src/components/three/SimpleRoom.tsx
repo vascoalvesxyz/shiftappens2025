@@ -8,7 +8,7 @@ export default function MyModel(
     onDrawerClick?: (id: string) => void;
   },
 ) {
-  const { scene } = useGLTF("/models/isometric_bricks.glb");
+  const { scene } = useGLTF("/models/room/isometric_bricks.glb");
 
   return (
     <primitive
@@ -20,4 +20,4 @@ export default function MyModel(
   );
 }
 
-useGLTF.preload("/models/simple_room.glb");
+useGLTF.preload("/models/room/isometric_bricks.glb");

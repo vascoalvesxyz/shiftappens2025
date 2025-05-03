@@ -1,17 +1,40 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Edges, Environment } from "@react-three/drei";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useControls } from "leva";
 import OfficeDrawer from "./three/OfficeDrawer";
+import Rug from "./three/Rug";
 import SimpleRoom from "./three/SimpleRoom";
+import CeilingLamp from "./three/CeilingLamp";
+import TvNoise from "./three/TvNoise";
+import Plant from "./three/Plant";
 import * as THREE from "three";
 import { FileSelector } from "./file-selector";
 
 export default function ThreeScene(): JSX.Element {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
+  const lightRef = useRef<THREE.DirectionalLight>(null);
+  const lightTargetRef = useRef<THREE.Object3D>(null);
+
+  // Configurações de luz controláveis com Leva
+  const {
+    lightIntensity,
+    ambientIntensity,
+    lightColor,
+    lightPositionX,
+    lightPositionY,
+    lightPositionZ,
+  } = useControls({
+    lightColor: "#ffffff",
+    lightIntensity: { value: 2, min: 0, max: 10, step: 0.1 },
+    ambientIntensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
+    lightPositionX: { value: 2, min: -10, max: 10 },
+    lightPositionY: { value: 5, min: 0, max: 10 },
+    lightPositionZ: { value: 5, min: -10, max: 10 },
+  });
 
   const handleDrawerClick = (drawerId: string) => {
-    console.log("Clicked on drawer:", drawerId);
     setSelectedDrawerId(parseInt(drawerId));
   };
 
@@ -20,37 +43,65 @@ export default function ThreeScene(): JSX.Element {
     [-0.3, -0.6, -1.5],
     [0.3, -0.6, -1.5],
     [0.9, -0.6, -1.5],
-
     [-1.5, -0.6, -0.9],
     [-1.5, -0.6, -0.3],
     [-1.5, -0.6, 0.3],
     [-1.5, -0.6, 0.9],
   ];
 
+  // Atualiza o target da luz quando a posição muda
+  useEffect(() => {
+    if (lightRef.current && lightTargetRef.current) {
+      lightRef.current.target = lightTargetRef.current;
+    }
+  }, []);
+
   return (
     <div className="relative w-full h-full">
       <Canvas
-        camera={{ position: [-5, 1, -5], fov: 30 }}
+        camera={{ position: [7, 12, 7], fov: 30 }}
         gl={{
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 2.5,
+          toneMappingExposure: 1.5, // Reduzido para ambiente mais escuro
+        }}
+        style={{
+          background: "#111111", // Fundo mais escuro
         }}
       >
-        <ambientLight intensity={1} color={0xffffff} />
-        <hemisphereLight
-          color={0xffffff}
-          groundColor={0xffffff}
-          intensity={1}
+        {/* Luz ambiente reduzida */}
+        <ambientLight intensity={ambientIntensity} color={0xffffff} />
+
+        {/* Removemos o hemisphereLight para mais contraste */}
+
+        {/* Luz direcional principal */}
+        <directionalLight
+          ref={lightRef}
+          color={lightColor}
+          intensity={lightIntensity}
+          position={[lightPositionX, lightPositionY, lightPositionZ]}
+          castShadow // Ativa sombras
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-camera-near={0.5}
+          shadow-camera-far={50}
+        />
+
+        {/* Alvo da luz direcional */}
+        <primitive
+          object={new THREE.Object3D()}
+          ref={lightTargetRef}
+          position={[0, 0, 0]} // Mirando no centro da cena
         />
 
         <OrbitControls
           enablePan={false}
-          enableZoom={false}
+          enableZoom={true}
           maxAzimuthAngle={Math.PI / 2}
           minAzimuthAngle={0}
-          minPolarAngle={Math.PI / 2 - Math.PI / 8} // 45° upward from straight ahead
-          maxPolarAngle={Math.PI / 2} // straight ahead
+          minPolarAngle={Math.PI / 2 - Math.PI / 8}
+          maxPolarAngle={Math.PI / 2}
         />
+
         <SimpleRoom />
         {positions.map((position, index) => (
           <OfficeDrawer
@@ -61,6 +112,10 @@ export default function ThreeScene(): JSX.Element {
             onDrawerClick={handleDrawerClick}
           />
         ))}
+        <CeilingLamp />
+        <Plant />
+        <Rug />
+        <TvNoise />
       </Canvas>
 
       {selectedDrawerId !== null && (
