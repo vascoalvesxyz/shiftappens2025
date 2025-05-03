@@ -1,19 +1,24 @@
 "use client";
 import { useGLTF } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useEffect, useState } from "react";
 import * as THREE from "three";
-export default function MyModel(
-  props: JSX.IntrinsicElements["group"] & {
-    drawerIndex: number;
-    onDrawerClick?: (id: string) => void;
-  },
-) {
+
+export default function Plant(
+  props: JSX.IntrinsicElements["group"],
+): JSX.Element {
   const { scene } = useGLTF("/models/plant.glb");
-  return (
-    <primitive
-      object={scene}
-      position={[-1.5, -0.39, 0.3]}
-      scale={[0.1, 0.1, 0.1]}
-    />
-  );
+
+  const [model, setModel] = useState<THREE.Object3D | null>(null);
+
+  useEffect(() => {
+    if (scene) {
+      // Criar uma nova instância do modelo toda vez que o componente for renderizado
+      const newModel = scene.clone();
+      setModel(newModel);
+    }
+  }, [scene]);
+
+  return model ? (
+    <primitive object={model} {...props} scale={[0.1, 0.1, 0.1]} />
+  ) : null;
 }

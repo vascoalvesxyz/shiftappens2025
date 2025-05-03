@@ -5,7 +5,6 @@ import { SignupPayload, LoginPayload } from "./auth/types";
 const app = express();
 app.use(express.json());
 
-// Rota de Cadastro
 app.post("/signup", async (req, res) => {
   try {
     const payload: SignupPayload = req.body;
@@ -16,7 +15,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Rota de Login
 app.post("/login", async (req, res) => {
   try {
     const payload: LoginPayload = req.body;
@@ -32,11 +30,9 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Rota Protegida
 app.get("/me", async (req, res) => {
   try {
-    // Implementar middleware de autenticação
-    const userId = 1; // Exemplo - pegar do token JWT
+    const userId = 1;
     const user = await AuthService.getUserById(userId);
 
     if (!user) {
@@ -51,5 +47,5 @@ app.get("/me", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Server on port : ${PORT}`);
 });

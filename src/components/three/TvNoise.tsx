@@ -1,21 +1,28 @@
 "use client";
 import { useGLTF } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useEffect, useState } from "react";
+import * as THREE from "three";
 
-export default function MyModel(
-  props: JSX.IntrinsicElements["group"] & {
-    drawerIndex: number;
-    onDrawerClick?: (id: string) => void;
-  },
-) {
+export default function Rug(
+  props: JSX.IntrinsicElements["group"],
+): JSX.Element {
   const { scene } = useGLTF("/models/tv_noise.glb");
 
-  return (
+  const [model, setModel] = useState<THREE.Object3D | null>(null);
+
+  useEffect(() => {
+    if (scene) {
+      const newModel = scene.clone();
+      setModel(newModel);
+    }
+  }, [scene]);
+
+  return model ? (
     <primitive
-      object={scene}
-      position={[0.3, -0.4, -1.5]}
+      object={model}
+      {...props}
       scale={[0.5, 0.5, 0.5]}
       rotation-y={Math.PI / 2}
     />
-  );
+  ) : null;
 }

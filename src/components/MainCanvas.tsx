@@ -1,21 +1,52 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Edges, Environment } from "@react-three/drei";
+import { OrbitControls, Environment } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
-import { Leva, useControls } from "leva";
+import * as THREE from "three";
+import { useLighting } from "@/context/LightningContext";
 import OfficeDrawer from "./three/OfficeDrawer";
 import Rug from "./three/Rug";
 import SimpleRoom from "./three/SimpleRoom";
 import CeilingLamp from "./three/CeilingLamp";
 import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
-import * as THREE from "three";
 import { FileSelector } from "./file-selector";
-import { LightControlsPanel } from "./LightControlsPanel";
-import { useLighting } from "@/context/LightningContext";
+import { useModelSelector } from "@/context/ModelSelectorContext";
 
+interface ModelSelectorProps {
+  placingModel: string | null;
+  setPlacingModel: (model: string | null) => void;
+}
+
+function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
+  return (
+    <div className="absolute top-4 left-4 z-10 bg-white p-2 rounded shadow">
+      <p className="font-bold mb-2">Adicionar modelo:</p>
+      {["Plant", "Radio"].map((model) => (
+        <button
+          key={model}
+          onClick={() => setPlacingModel(model)}
+          className="block my-1 px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 w-full text-left"
+        >
+          {model}
+        </button>
+      ))}
+      {placingModel && (
+        <p className="text-sm text-green-600 mt-2">
+          Clique no chão para colocar: <strong>{placingModel}</strong>
+        </p>
+      )}
+    </div>
+  );
+}
 export default function ThreeScene(): JSX.Element {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
+  const [placingModel, setPlacingModel] = useState<string | null>(null);
+  const { showModelSelector } = useModelSelector();
+  const [addedItems, setAddedItems] = useState<
+    { id: number; type: string; position: [number, number, number] }[]
+  >([]);
+
   const { lightColor, lightIntensity, ambientIntensity, lightPosition } =
     useLighting();
   const lightRef = useRef<THREE.DirectionalLight>(null);
@@ -36,7 +67,6 @@ export default function ThreeScene(): JSX.Element {
     [-1.5, -1.6, 0.9],
   ];
 
-  // Atualiza o target da luz quando a posição muda
   useEffect(() => {
     if (lightRef.current && lightTargetRef.current) {
       lightRef.current.target = lightTargetRef.current;
@@ -45,6 +75,12 @@ export default function ThreeScene(): JSX.Element {
 
   return (
     <div className="relative w-full h-full">
+      {showModelSelector == true && (
+        <ModelSelector
+          placingModel={placingModel}
+          setPlacingModel={setPlacingModel}
+        />
+      )}
       <Canvas
         camera={{ position: [5, 10, 5], fov: 30 }}
         gl={{
@@ -52,32 +88,26 @@ export default function ThreeScene(): JSX.Element {
           toneMappingExposure: 0.8,
         }}
         style={{
-          background: "#111111", // Fundo mais escuro
+          background: "#111111",
         }}
+        shadows
       >
-        {/* Luz ambiente reduzida */}
         <ambientLight intensity={ambientIntensity} color={0xffffff} />
-
-        {/* Removemos o hemisphereLight para mais contraste */}
-
-        {/* Luz direcional principal */}
         <directionalLight
           ref={lightRef}
           color={lightColor}
           intensity={lightIntensity}
           position={[lightPosition.x, lightPosition.y, lightPosition.z]}
-          castShadow // Ativa sombras
+          castShadow
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
           shadow-camera-near={0.5}
           shadow-camera-far={50}
         />
-
-        {/* Alvo da luz direcional */}
         <primitive
           object={new THREE.Object3D()}
           ref={lightTargetRef}
-          position={[0, 0, 0]} // Mirando no centro da cena
+          position={[0, 0, 0]}
         />
 
         <OrbitControls
@@ -100,11 +130,43 @@ export default function ThreeScene(): JSX.Element {
           />
         ))}
         <CeilingLamp />
-        <Plant />
+        <Plant position={[-1.5, -0.39, 0.3]} />
         <Rug />
-        <TvNoise />
-      </Canvas>
+        <TvNoise position={[0.3, -0.4, -1.5]} />
 
+        <mesh
+          rotation-x={-Math.PI / 2}
+          position={[0, -1.6, 0]}
+          onClick={(e) => {
+            if (!placingModel) return;
+            const { x, y, z } = e.point;
+            setAddedItems((prev) => [
+              ...prev,
+              {
+                id: Date.now(),
+                type: placingModel,
+                position: [x, y, z],
+              },
+            ]);
+            setPlacingModel(null);
+          }}
+        >
+          <planeGeometry args={[20, 20]} />
+          <meshStandardMaterial transparent opacity={0} />
+        </mesh>
+
+        {addedItems.map((item) => {
+          const props = { key: item.id, position: item.position };
+          switch (item.type) {
+            case "Plant":
+              return <Plant key={item.id} position={item.position} />;
+            case "Radio":
+              return <TvNoise key={item.id} position={item.position} />;
+            default:
+              return null;
+          }
+        })}
+      </Canvas>
       {selectedDrawerId !== null && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-[400px]">
           <FileSelector
