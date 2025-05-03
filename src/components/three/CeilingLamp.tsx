@@ -4,12 +4,7 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect } from "react";
 
-export default function MyModel(
-  props: JSX.IntrinsicElements["group"] & {
-    drawerIndex: number;
-    onDrawerClick?: (id: string) => void;
-  },
-) {
+export default function MyModel() {
   const { scene } = useGLTF("/models/celling_lamp.glb");
 
   useEffect(() => {

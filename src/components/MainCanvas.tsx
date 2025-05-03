@@ -11,6 +11,7 @@ import CeilingLamp from "./three/CeilingLamp";
 import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
 import { FileSelector } from "./file-selector";
+<<<<<<< HEAD
 import { useModelSelector } from "@/context/ModelSelectorContext";
 
 interface ModelSelectorProps {
@@ -39,7 +40,9 @@ function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
     </div>
   );
 }
-export default function ThreeScene(): JSX.Element {
+
+export default function ThreeScene() {
+import { useLighting } from "@/context/LightningContext";
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
   const [placingModel, setPlacingModel] = useState<string | null>(null);
   const { showModelSelector } = useModelSelector();

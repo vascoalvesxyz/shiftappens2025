@@ -7,6 +7,12 @@
     pointer-events: none;
 }
 
+.desktop img {
+    max-height: 1em;
+    display: inline-block;
+    margin: 0rem 1rem;
+}
+
 .desktop-nav {
     height: 10%;
     width: 100vw;
@@ -86,7 +92,7 @@
 .card-close {
     position: absolute;
     top: 10;
-    right: 15;
+    margin-left: 85%;
     color: #666666;
     font-size: 1.1rem;
 }
@@ -100,6 +106,10 @@
 .card-container-scroll {
   max-height: 100%;
   overflow-y: auto;
+}
+
+.card-container-scroll:hover {
+    cursor: move;
 }
 
 .card-content {

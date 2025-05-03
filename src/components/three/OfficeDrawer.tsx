@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, JSX } from "react";
 import {
   Group,
   Object3D,
@@ -70,7 +70,7 @@ export default function MyModel(
           });
 
           if (props.onDrawerClick) {
-            props.onDrawerClick(target.id);
+            props.onDrawerClick(target.id.toString());
           }
         }
       }

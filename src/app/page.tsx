@@ -5,7 +5,7 @@ import Desktop from "@/components/Desktop";
 import { LightingProvider } from "@/context/LightningContext";
 import { ModelSelectorProvider } from "@/context/ModelSelectorContext";
 
-export default function Home(): JSX.Element {
+export default function Home() {
   return (
     <main style={{ height: "100vh", width: "100vw" }}>
       <LightingProvider>
