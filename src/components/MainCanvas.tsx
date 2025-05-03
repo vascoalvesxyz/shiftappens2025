@@ -48,7 +48,7 @@ function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
   );
 }
 
-export default function ThreeScene(): JSX.Element {
+export default function ThreeScene() {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
   const [placingModel, setPlacingModel] = useState<string | null>(null);
   const { showModelSelector } = useModelSelector();

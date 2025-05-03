@@ -12,7 +12,9 @@ export default function Desktop() {
   return (
     <div className="desktop">
       {windows.map((w) => (
-        <Window className="desktop-window" key={w.id} data={w} />
+            <div className="desktop-window">
+                <Window key={w.id} data={w} />
+            </div>
       ))}
       <div className="desktop-nav">
         <nav className="border-b border-border bg-background text-foreground shadow-sm px-4 py-2 flex items-center justify-between">

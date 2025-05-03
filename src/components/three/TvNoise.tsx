@@ -1,14 +1,13 @@
 "use client";
 import { useGLTF } from "@react-three/drei";
 import { useEffect, useState } from "react";
+import type { JSX } from "react";
 import * as THREE from "three";
+import { Object3D } from "three";
 
-export default function Rug(
-  props: JSX.IntrinsicElements["group"],
-): JSX.Element {
+export default function Plant(props: JSX.IntrinsicElements["group"]) {
   const { scene } = useGLTF("/models/tv_noise.glb");
-
-  const [model, setModel] = useState<THREE.Object3D | null>(null);
+  const [model, setModel] = useState<Object3D | undefined>(undefined);
 
   useEffect(() => {
     if (scene) {
@@ -17,12 +16,7 @@ export default function Rug(
     }
   }, [scene]);
 
-  return model ? (
-    <primitive
-      object={model}
-      {...props}
-      scale={[0.5, 0.5, 0.5]}
-      rotation-y={Math.PI / 2}
-    />
-  ) : null;
+  if (!model) return null;
+
+  return <primitive object={model} {...props} scale={[0.5, 0.5, 0.5]} />;
 }

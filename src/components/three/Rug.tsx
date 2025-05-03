@@ -1,6 +1,7 @@
 "use client";
 import { useGLTF } from "@react-three/drei";
-import { useRef, useEffect, useState, JSX } from "react";
+import { useRef, useEffect, useState } from "react";
+import type {JSX} from 'react';
 
 export default function MyModel() {
   const { scene } = useGLTF("/models/rug/rug.glb");
