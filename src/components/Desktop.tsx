@@ -14,7 +14,8 @@ export default function Desktop() {
             ))}
             <div className='desktop-nav'>
             <nav className="border-b border-border bg-background text-foreground shadow-sm px-4 py-2 flex items-center justify-between">
-                <div className="text-lg font-semibold">Mindplace</div>
+                    
+                <div className="text-lg font-semibold"><img src="/logo.png" />Mindplace</div>
                 <details className="relative sm:hidden">
                         <summary>
                         </summary>
