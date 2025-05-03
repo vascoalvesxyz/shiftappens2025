@@ -277,7 +277,7 @@ export function NoteViewer({
                     />
                     <div className="space-y-2">
                       <span className="text-sm font-medium">Preview</span>
-                      <div className="create-note-text-preview rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
+                      <div className="create-note-text-preview rounded-md border mt-1 border-input pl-4 min-h-[350px] overflow-auto max-h-[500px]">
                         {form.watch("content").trim() ? (
                           <MDXRender mdxString={form.watch("content")} />
                         ) : (

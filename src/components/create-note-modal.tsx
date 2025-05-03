@@ -207,7 +207,7 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                                     </div>
                                     <div className="space-y-2 h-full flex flex-col">
                                         <FormLabel>Preview</FormLabel>
-                                        <div className="create-note-text-preview rounded-md border border-input p-4 flex-1 overflow-auto">
+                                        <div className="create-note-text-preview rounded-md border border-input pl-4 flex-1 overflow-auto">
                                             {form.watch("content").trim() ? (
                                                 <MDXRender mdxString={form.watch("content")} />
                                             ) : (
