@@ -16,6 +16,7 @@ export default function Window({ data }: { data: WindowData }) {
     return (
         <Rnd
             className="card"
+            dragHandleClassName="card-header"
             size={{ width, height }}
             position={{ x, y }}
             onDragStart={() => bringToFront(id)}

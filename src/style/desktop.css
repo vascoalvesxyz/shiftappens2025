@@ -104,15 +104,13 @@
 }
 
 .card-container-scroll {
+    user-select: none;
   max-height: 100%;
   overflow-y: auto;
 }
 
-.card-container-scroll:hover {
-    cursor: move;
-}
-
 .card-content {
+    user-select: none;
     color: #444444;
     font-family: sans-serif;
 
