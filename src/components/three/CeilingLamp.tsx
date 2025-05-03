@@ -13,7 +13,7 @@ export default function MyModel(
   return (
     <primitive
       object={scene}
-      position={[0.4, 2.5, 0.5]}
+      position={[0.4, 1.5, 0.5]}
       scale={[0.002, 0.002, 0.002]}
     />
   );

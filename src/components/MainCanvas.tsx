@@ -16,7 +16,8 @@ import { useLighting } from "@/context/LightningContext";
 
 export default function ThreeScene(): JSX.Element {
   const [selectedDrawerId, setSelectedDrawerId] = useState<number | null>(null);
-  const { lightColor, lightIntensity, ambientIntensity, lightPosition } = useLighting()
+  const { lightColor, lightIntensity, ambientIntensity, lightPosition } =
+    useLighting();
   const lightRef = useRef<THREE.DirectionalLight>(null);
   const lightTargetRef = useRef<THREE.Object3D>(null);
 
@@ -25,14 +26,14 @@ export default function ThreeScene(): JSX.Element {
   };
 
   const positions = [
-    [-0.9, -0.6, -1.5],
-    [-0.3, -0.6, -1.5],
-    [0.3, -0.6, -1.5],
-    [0.9, -0.6, -1.5],
-    [-1.5, -0.6, -0.9],
-    [-1.5, -0.6, -0.3],
-    [-1.5, -0.6, 0.3],
-    [-1.5, -0.6, 0.9],
+    [-0.9, -1.6, -1.5],
+    [-0.3, -1.6, -1.5],
+    [0.3, -1.6, -1.5],
+    [0.9, -1.6, -1.5],
+    [-1.5, -1.6, -0.9],
+    [-1.5, -1.6, -0.3],
+    [-1.5, -1.6, 0.3],
+    [-1.5, -1.6, 0.9],
   ];
 
   // Atualiza o target da luz quando a posição muda
@@ -44,12 +45,11 @@ export default function ThreeScene(): JSX.Element {
 
   return (
     <div className="relative w-full h-full">
-
       <Canvas
-        camera={{ position: [7, 12, 7], fov: 30 }}
+        camera={{ position: [5, 10, 5], fov: 30 }}
         gl={{
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.5, // Reduzido para ambiente mais escuro
+          toneMappingExposure: 0.8,
         }}
         style={{
           background: "#111111", // Fundo mais escuro

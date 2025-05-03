@@ -13,7 +13,7 @@ export default function MyModel(
   return (
     <primitive
       object={scene}
-      position={[0.3, 0.6, -1.5]}
+      position={[0.3, -0.4, -1.5]}
       scale={[0.5, 0.5, 0.5]}
       rotation-y={Math.PI / 2}
     />
