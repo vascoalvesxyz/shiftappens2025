@@ -130,9 +130,10 @@ export function NoteViewer({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[900px] max-h-[80vh]">
+        <DialogContent className="glass w-[95vw] h-[90vh] sm:max-w-[95vw] max-w-none p-6 overflow-hidden">
           {!isEditing && note ? (
             <>
+            <div className="card-container-scroll flex flex-col h-full">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   {getNoteIcon(note.type)}
@@ -161,13 +162,15 @@ export function NoteViewer({
                   <p className="italic text-muted-foreground">No content found.</p>
                 )}
               </div>
+            </div>
             </>
           ) : (
             <>
-              <DialogHeader>
+              <div className="card-header">
                 <DialogTitle>Edit Note</DialogTitle>
                 <DialogDescription>Make changes to your note. Click save when you're done.</DialogDescription>
-              </DialogHeader>
+              </div>
+              <div className="card-container-scroll flex flex-col h-full">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
@@ -241,7 +244,7 @@ export function NoteViewer({
                       <TabsContent value="preview">
                         <div className="space-y-2">
                           <span className="text-sm font-medium">Preview</span>
-                          <div className="rounded-md border border-input p-2 min-h-[350px] overflow-auto max-h-full">
+                          <div className="create-note-text-preview rounded-md border border-input p-2 min-h-[350px] overflow-auto max-h-full">
                             {form.watch("content").trim() ? (
                               <MDXRender mdxString={form.watch("content")} />
                             ) : (
@@ -274,7 +277,7 @@ export function NoteViewer({
                     />
                     <div className="space-y-2">
                       <span className="text-sm font-medium">Preview</span>
-                      <div className="rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
+                      <div className="create-note-text-preview rounded-md border border-input p-4 min-h-[350px] overflow-auto max-h-[500px]">
                         {form.watch("content").trim() ? (
                           <MDXRender mdxString={form.watch("content")} />
                         ) : (
@@ -292,6 +295,7 @@ export function NoteViewer({
                   </DialogFooter>
                 </form>
               </Form>
+              </div>
             </>
           )}
         </DialogContent>
