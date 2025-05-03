@@ -7,30 +7,7 @@ import { SignupPayload, LoginPayload, User } from "./types";
 const SALT_ROUNDS = 10;
 
 export class AuthService {
-  static async signup(payload: SignupPayload): Promise<User> {
-    const hashedPassword = await bcrypt.hash(payload.password, SALT_ROUNDS);
-
-    await db.insert(usersTable).values({
-      ...payload,
-      password: hashedPassword,
-    });
-
-    const [user] = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, payload.email));
-
-    if (!user) throw new Error("Failed to create user");
-
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      age: user.age,
-      created_at: user.created_at.toISOString(),
-    };
-  }
-
+/*
   static async signup(payload: SignupPayload): Promise<User> {
     const hashedPassword = await bcrypt.hash(payload.password, SALT_ROUNDS);
 
@@ -88,4 +65,5 @@ export class AuthService {
       created_at: user.created_at,
     };
   }
+*/
 }

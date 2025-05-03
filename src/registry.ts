@@ -1,7 +1,7 @@
-import { NoteViewer } from './components/note-viewer.tsx';
+import { NoteViewer } from './components/note-viewer';
 
-import About from './components/windows/About.tsx'
-import Settings from './components/windows/Settings.tsx'
+import About from './components/windows/About'
+import Settings from './components/windows/Settings'
 
 const registry: Record<string, React.ComponentType<any>> = {
     About,
