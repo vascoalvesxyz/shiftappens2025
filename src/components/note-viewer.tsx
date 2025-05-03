@@ -192,7 +192,7 @@ export function NoteViewer({
                     name="type"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Note Type</FormLabel>
+                        <FormLabel>Note Color</FormLabel>
                         <Select value={field.value} onValueChange={field.onChange}>
                           <FormControl>
                             <SelectTrigger>
