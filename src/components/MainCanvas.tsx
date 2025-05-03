@@ -46,7 +46,7 @@ export default function ThreeScene(): JSX.Element {
     <div className="relative w-full h-full">
 
       <Canvas
-        camera={{ position: [7, 12, 7], fov: 30 }}
+        camera={{ position: [5, 20, 5], fov: 20 }}
         gl={{
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.5, // Reduzido para ambiente mais escuro

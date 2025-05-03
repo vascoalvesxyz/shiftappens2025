@@ -122,7 +122,7 @@ export function CreateNoteModal({ drawer, onNoteCreated }: { drawer: number, onN
                                     name="type"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Note Type</FormLabel>
+                                            <FormLabel>Note Color</FormLabel>
                                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                 <FormControl>
                                                     <SelectTrigger>
