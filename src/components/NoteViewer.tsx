@@ -134,7 +134,7 @@ export function NoteViewer({
           {!isEditing && note ? (
             <>
             <div className="card-container-scroll flex flex-col h-full">
-              <DialogHeader>
+              <div className="">
                 <DialogTitle className="flex items-center gap-2">
                   {getNoteIcon(note.type)}
                   {note?.title}
@@ -154,7 +154,7 @@ export function NoteViewer({
                     Delete
                   </Button>
                 </DialogDescription>
-              </DialogHeader>
+              </div>
               <div className="overflow-auto max-h-[500px]">
                 {note?.content ? (
                   <MDXRender mdxString={note.content} />

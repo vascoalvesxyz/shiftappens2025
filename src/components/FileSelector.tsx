@@ -7,8 +7,8 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
-import { NoteViewer } from "./note-viewer"
-import { CreateNoteModal } from "./create-note-modal"
+import { NoteViewer } from "./NoteViewer"
+import { CreateNoteModal } from "./CreateNoteModal"
 
 import '../style/desktop.css'
 import { getNoteIcon, Note, NoteType } from "@/lib/types";

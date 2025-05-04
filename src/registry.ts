@@ -1,4 +1,4 @@
-import { NoteViewer } from './components/note-viewer';
+import { NoteViewer } from './components/NoteViewer';
 
 import About from './components/windows/About'
 import Settings from './components/windows/Settings'

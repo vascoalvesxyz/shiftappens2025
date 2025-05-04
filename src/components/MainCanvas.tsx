@@ -10,13 +10,14 @@ import SimpleRoom from "./three/SimpleRoom";
 import CeilingLamp from "./three/CeilingLamp";
 import TvNoise from "./three/TvNoise";
 import Plant from "./three/Plant";
-import { FileSelector } from "./file-selector";
+import { FileSelector } from "./FileSelector.tsx";
 import { useModelSelector } from "@/context/ModelSelectorContext";
 
 interface ModelSelectorProps {
   placingModel: string | null;
   setPlacingModel: (model: string | null) => void;
 }
+
 function ModelSelector({ placingModel, setPlacingModel }: ModelSelectorProps) {
   const { toggleModelSelector } = useModelSelector();
   return (
