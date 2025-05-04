@@ -31,9 +31,9 @@ export function FileSelector({
   drawer,
   onClose,
 }: {
-  drawer: number
-  onClose: () => void
-}) {
+    drawer: number
+    onClose: () => void
+  }) {
   const [searchQuery, setSearchQuery] = useState("")
   const [notes, setNotes] = useState<Note[]>([])
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
@@ -86,7 +86,7 @@ export function FileSelector({
     if (!query) return notes
     return notes.filter(note =>
       note.title.toLowerCase().includes(query) ||
-      note.type.toLowerCase().includes(query)
+        note.type.toLowerCase().includes(query)
     )
   }, [searchQuery, notes])
 
@@ -97,13 +97,6 @@ export function FileSelector({
 
   return (
     <div className="card">
-      <button
-        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition"
-        onClick={onClose}
-        aria-label="Close"
-      >
-        <X className="w-5 h-5" />
-      </button>
 
       {noteViewerOpen && selectedNote ? (
         <NoteViewer
@@ -123,57 +116,68 @@ export function FileSelector({
           }}
         />
       ) : (
-        <>
-          <div className="card-section-container">
-            <div className="card-header">Drawer {drawer}</div>
-            <p className="card-subtext"> Browse or search through your notes. </p>
-          </div>
+          <>
+            <div className="card-nav">
+              <div className="card-header">
+                Drawer {drawer}
+              </div>
 
-          <CreateNoteModal
-            drawer={drawer}
-            onNoteCreated={(newNote: Note) => {
-              setNotes((prev) => [...prev, newNote])
-            }}
-          />
+              <button className="card-close hover:text-foreground transition"
+                onClick={onClose}
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-          <div className="card-section-container">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search notes..."
-              className="pl-9"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+            <div className="card-body">
+              <div className="card-section-container">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search notes..."
+                  className="pl-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-2 max-h-[60vh] overflow-y-auto border rounded-md bg-card p-2">
+                {notes.length > 0 ? (
+                  filteredNotes.length > 0 ? (
+                    <div className="space-y-1">
+                      {filteredNotes.map((note) => (
+                        <NoteItem
+                          key={`${note.drawer}-${note.id}-${note.title}`}
+                          note={note}
+                          onSelect={handleSelectNote}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                      <div className="flex items-center justify-center h-32 text-muted-foreground">
+                        No notes found matching your search.
+                      </div>
+                    )
+                )
+                  : (
+                    <div className="flex items-center justify-center h-32 text-muted-foreground">
+                      No notes found.
+                    </div>
+                  )
+                }
+              </div>
+
+            </div>
+            <CreateNoteModal
+              drawer={drawer}
+              onNoteCreated={(newNote: Note) => {
+                setNotes((prev) => [...prev, newNote])
+              }}
             />
-          </div>
 
-          <div className="mt-2 max-h-[60vh] overflow-y-auto border rounded-md bg-card p-2">
-            {notes.length > 0 ? (
-              filteredNotes.length > 0 ? (
-                <div className="space-y-1">
-                {filteredNotes.map((note) => (
-                  <NoteItem
-                  key={`${note.drawer}-${note.id}-${note.title}`}
-                  note={note}
-                  onSelect={handleSelectNote}
-                  />
-                ))}
-                </div>
-              ) : (
-              <div className="flex items-center justify-center h-32 text-muted-foreground">
-              No notes found matching your search.
-                </div>
-              )
-            )
-              : (
-              <div className="flex items-center justify-center h-32 text-muted-foreground">
-              No notes found.
-                </div>
-              )
-            }
-          </div>
-        </>
-      )}
+          </>
+        )}
     </div>
   )
 }

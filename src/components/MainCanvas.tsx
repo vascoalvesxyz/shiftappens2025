@@ -96,6 +96,9 @@ export default function ThreeScene() {
         gl={{
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 0.8,
+          powerPreference: "low-power",
+          antialias: true,
+          precision: "lowp"
         }}
         style={{
           background: "#111111",
